@@ -28,6 +28,8 @@ class StoryUnit(Thread):
         )
         self.story = story
 
+    def __repr__(self):
+        return "<StoryUnit ({name})>".format(name=self.name)
 
     def start(self):
         print('Starting:', self)
