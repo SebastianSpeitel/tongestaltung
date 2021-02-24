@@ -143,3 +143,7 @@ class SoundEvents:
         if wait:
             for evt in self.events:
                 evt.stopped.wait()
+
+    def wait(self):
+        for evt in self.events:
+            evt.stopped.wait()
