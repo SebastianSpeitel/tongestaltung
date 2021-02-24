@@ -29,6 +29,11 @@ class StoryUnit(Thread):
         self.story = story
 
 
+    def start(self):
+        print('Starting:', self)
+        super().start()
+
+
 class Story:
     def __init__(self):
         attr_names = set(dir(self)).difference(dir(Story))
