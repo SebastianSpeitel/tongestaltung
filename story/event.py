@@ -9,6 +9,12 @@ class Channel(Enum):
     POS4 = '5'
     POS5 = '1'
     POS6 = '0'
+    C = '4'
+    L = '0'
+    R = '3'
+    Ls = '2'
+    Rs = '1'
+    LFE = '5'
     INTERN = 'internm'
 
 
