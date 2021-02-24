@@ -123,7 +123,7 @@ class SoundEvents:
             channel = getattr(Channel, ch, None)
             if channel is None:
                 continue
-            self.sounds.append((channel, pos))
+            self.sounds.append((channel, id))
 
     def play(self, wait: bool = True):
         self.events = [SoundEvent(self.binsim, id, ch)
