@@ -10,35 +10,35 @@ class Gruppe2(Story):
         self.binsim = binsim
 
         self.s_loop_bats_window = SoundEvents(
-            binsim,
+            self.binsim,
             R='001'  # TODO
         )
         self.s_loop_rain = SoundEvents(
-            binsim,
+            self.binsim,
             C='002'  # TODO
         )
         self.s_loop_zombie_front = SoundEvents(
-            binsim,
+            self.binsim,
             L='003'  # TODO
         )
         self.s_loop_bats_corner = SoundEvents(
-            binsim,
+            self.binsim,
             Rs='016',  # TODO
         )
         self.s_loop_radio = SoundEvents(
-            binsim,
+            self.binsim,
             LFE='019'  # TODO
         )
         self.s_loop_radio_noise1 = SoundEvents(
-            binsim,
+            self.binsim,
             LFE='021'  # TODO
         )
         self.s_loop_radio_noise2 = SoundEvents(
-            binsim,
+            self.binsim,
             LFE='022'  # TODO
         )
         self.s_loop_radio_noise3 = SoundEvents(
-            binsim,
+            self.binsim,
             LFE='023'  # TODO
         )
 
@@ -55,14 +55,14 @@ class Gruppe2(Story):
     def flight(self):
         # ANU1
         ankunft = SoundEvents(
-            binsim,
+            self.binsim,
             L='004',  # TODO
             Ls='005'  # TODO
         )
         ankunft.play()
         ankunft.wait()
 
-        trigger = Trigger(binsim, [[], []])
+        trigger = Trigger(self.binsim, [[], []])
 
         hint_at = time.perf_counter() + 3
         fallback_at = time.perf_counter() + 9
@@ -80,7 +80,7 @@ class Gruppe2(Story):
 
     def hint1(self):
         hint = SoundEvents(
-            binsim,
+            self.binsim,
             Ls='006'  # TODO
         )
         hint.play()
@@ -89,7 +89,7 @@ class Gruppe2(Story):
     def window_locked(self):
         # ANU3
         window = SoundEvents(
-            binsim,
+            self.binsim,
             C='007',  # TODO
             L='008',  # TODO
             Ls='009'  # TODO
@@ -97,8 +97,8 @@ class Gruppe2(Story):
         window.play()
         window.wait()
 
-        to_window = Trigger(binsim, [[], []])
-        to_door = Trigger(binsim, [[], []])
+        to_window = Trigger(self.binsim, [[], []])
+        to_door = Trigger(self.binsim, [[], []])
 
         while True:
             if to_window.triggered.is_set():
@@ -114,7 +114,7 @@ class Gruppe2(Story):
     def window_bats(self):
         # ANU5
         bats = SoundEvents(
-            binsim,
+            self.binsim,
             C='010',  # TODO
             L='011',  # TODO
             LFE='012',  # TODO
@@ -138,7 +138,7 @@ class Gruppe2(Story):
         # ANU6
 
         door = SoundEvents(
-            binsim,
+            self.binsim,
             C='017',  # TODO
             L='018'  # TODO
         )
@@ -160,14 +160,14 @@ class Gruppe2(Story):
             hint2_at = time.perf_counter()+6
             hinted2 = False
 
-        radio_rotated1 = Trigger(binsim, rotation=(0, 360))
-        radio_rotated2 = Trigger(binsim, rotation=(90, 180))
-        radio_rotated3 = Trigger(binsim, rotation=(100, 120))
+        radio_rotated1 = Trigger(self.binsim, rotation=(0, 360))
+        radio_rotated2 = Trigger(self.binsim, rotation=(90, 180))
+        radio_rotated3 = Trigger(self.binsim, rotation=(100, 120))
 
         while True:
             if self.var_buddy_alive and not hinted1 and time.perf_counter() > hint1_at:
                 hint1 = SoundEvents(
-                    binsim,
+                    self.binsim,
                     C='020'  # TODO hinweis_radio
                 )
                 hint1.play()
@@ -175,7 +175,7 @@ class Gruppe2(Story):
 
             if self.var_buddy_alive and not hinted2 and time.perf_counter() > hint2_at:
                 hint2 = SoundEvents(
-                    binsim,
+                    self.binsim,
                     C='021'  # TODO hinweis_radio2
                 )
                 hint2.play()
