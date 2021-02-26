@@ -73,7 +73,7 @@ class SoundEvent(Event):
         self.playing = threading.Event()
         self.stopped = threading.Event()
 
-    def __init__(self):
+    def __repr__(self):
         return "<SoundEvent (channel={channel}, file={file})>".format(channel=self.channel, file=self.file)
 
     @property
