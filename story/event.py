@@ -1,5 +1,6 @@
 from enum import Enum
 import threading
+import time
 
 
 class Channel(Enum):
@@ -51,6 +52,7 @@ class Trigger(Event):
         self.triggered = threading.Event()
 
     def poll(self):
+        # TODO get trigger_in_are from script
         if trigger_in_area(*self.area, self.tracker):
             self.triggered.set()
         else:
@@ -71,9 +73,12 @@ class SoundEvent(Event):
         self.playing = threading.Event()
         self.stopped = threading.Event()
 
+    def __init__(self):
+        return "<SoundEvent (channel={channel}, file={file})>".format(channel=self.channel, file=self.file)
+
     @property
     def event(self):
-        return binsim.sceneHandler.sound_events[self.file]
+        return self.binsim.sceneHandler.sound_events[self.file]
 
     @property
     def is_running(self):
@@ -127,7 +132,7 @@ class SoundEvents:
 
     def play(self, wait: bool = True):
         self.events = [SoundEvent(self.binsim, id, ch)
-                       for id, ch in self.sounds]
+                       for ch, id in self.sounds]
 
         for evt in self.events:
             evt.play()
