@@ -1,48 +1,24 @@
 from enum import Enum
 import threading
 import time
+from util import tracker_in_area
 
 
 class Channel(Enum):
+    C = '4'
+    L = '0'
+    R = '3'
+    Ls = '1'
+    Rs = '2'
+    LFE = '5'
+    INTERN = 'internm'
+
     POS1 = '4'
     POS2 = '3'
     POS3 = '2'
     POS4 = '5'
     POS5 = '1'
     POS6 = '0'
-    C = '4'
-    L = '0'
-    R = '3'
-    Ls = '2'
-    Rs = '1'
-    LFE = '5'
-    INTERN = 'internm'
-
-
-def tracker_in_area(binsim, minVals, maxVals):
-    """
-    Check whether the tracker is located inside a rectangular area defined by lower and upper edges in terms of
-    a column and row identifier. These numerical identifiers relate to the QualiSys tracking data.
-    See "Tracking data" comment in line 38.
-
-    :param minVals: tuple or list of lower edge of area -> (column, row)
-    :param maxVals: tuple or list of upper edge of area -> (column, row)
-    :return: boolean (True -> tracker is in area, False -> tracker is not in area)
-    """
-
-    # get tracking data for channel '0' -> except for the channel id tracking data is the same for all channels
-    data = binsim.oscReceiver.valueList[0]
-
-    # organize into column and row according to filtermap quadrants (A01...Q17)
-    col = data[1]
-    row = data[2]
-
-    # compare if  tracker is inside defined area
-    if col >= minVals[0] and col <= maxVals[0]:
-        if row >= minVals[1] and row <= maxVals[1]:
-            print('\n TRIGGERED \n')  # mainly for debug purposes
-            return True
-    return False
 
 
 class Event:
@@ -70,17 +46,22 @@ class Event:
 
 class Trigger(Event):
 
-    def __init__(self, binsim, area=None, rotation=None, tracker: str = 'listener', *args, **kwargs):
+    def __init__(self, binsim, x_min, y_min, x_max, y_max, tracker: str = 'listener', *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.binsim = binsim
-        self.area = area
+        self.area = dict(
+            x_min=min(x_min, x_max),
+            x_max=max(x_min, x_max),
+            y_min=min(y_min, y_max),
+            y_max=max(y_min, y_max),
+        )
         self.rotation = rotation
         self.tracker = tracker
         self.triggered = threading.Event()
 
     def poll(self):
         # TODO get trigger_in_are from script
-        if trigger_in_area(self.binsim, *self.area, self.tracker):
+        if trigger_in_area(self.binsim, **self.area, self.tracker):
             self.triggered.set()
         else:
             self.triggered.clear()
